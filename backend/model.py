@@ -10,11 +10,14 @@ class Admin(Base):
 class User(Base):
     __tablename__ = 'users'
     id = Column(Integer, primary_key=True, index=True)
-    name = Column(String, index=True)
-    encoding = Column(String)  # store face encoding
+    username = Column(String, unique=True, index=True)
+    password = Column(String)
+    encoding = Column(String)
+    role = Column(String, default='user')   # 👈 ADD THIS LINE
 
 class Attendance(Base):
     __tablename__ = 'attendance'
     id = Column(Integer, primary_key=True, index=True)
     user_id = Column(Integer)
+    username = Column(String) 
     timestamp = Column(DateTime)
