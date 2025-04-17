@@ -1,4 +1,5 @@
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 import os
 import json
 from werkzeug.security import generate_password_hash
@@ -11,6 +12,7 @@ import numpy as np
 from datetime import datetime
 
 app = Flask(__name__)
+CORS(app)
 
 
 # Folder to save uploaded face images
@@ -238,7 +240,7 @@ def get_attendance():
         })
 
     db.close()
-
+    print("Attendance request received") 
     return jsonify({'attendance': attendance_list})
 
 
