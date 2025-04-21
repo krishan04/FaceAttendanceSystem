@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios'; // Install axios if not already: npm install axios
+import axios from 'axios';
 
 function LoginPage() {
   const [username, setUsername] = useState('');
@@ -11,24 +11,33 @@ function LoginPage() {
     e.preventDefault();
 
     try {
-      const response = await axios.post('http://127.0.0.1:5000/login', {
-        username,
-        password
-      });
+      const response = await axios.post(
+        'http://127.0.0.1:5000/login',
+        {
+          username,
+          password,
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
+      );
 
       const data = response.data;
 
-      if (data.success) {
-        // Save role in localStorage
-        localStorage.setItem('role', data.role);  // admin/user
-        alert('Login successful!');
-        navigate('/');  // Redirect to HomePage
-      } else {
-        alert('Invalid username or password');
-      }
+      // Backend returns 200 only if login is successful
+      localStorage.setItem('role', data.role); // 'admin' or 'user'
+      alert(data.message); // "Welcome username!"
+      navigate('/'); // Redirect to HomePage
+
     } catch (error) {
+      if (error.response && error.response.status === 401) {
+        alert('Invalid username or password');
+      } else {
+        alert('Error logging in. Please try again.');
+      }
       console.error('Login error:', error);
-      alert('Error logging in. Please try again.');
     }
   };
 

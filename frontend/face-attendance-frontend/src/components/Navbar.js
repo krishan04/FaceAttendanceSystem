@@ -13,7 +13,7 @@ const Navbar = () => {
         {/* Visible to Admins only */}
         {role === 'admin' && (
           <>
-            <li><Link to="/upload-face">Upload Face</Link></li>
+            <li><Link to="/register">Upload Face</Link></li>
             <li><Link to="/attendance">Attendance</Link></li>
             <li><Link to="/register_admin">Register Admin</Link></li>
           </>
